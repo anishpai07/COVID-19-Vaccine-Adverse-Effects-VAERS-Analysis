@@ -10,6 +10,20 @@ def create_dataframe(filename):
 
     """
     df = pd.read_csv(filename, engine='python')
-    # print(df.head(250))
+
     return df
 
+
+if __name__ == "__main__":
+
+    # VACCINATIONS PER STATE DATA CLEANING AND PREPROCESSING.
+
+    # DROP LOCATIONS WHICH ARE NOT A US STATE
+    vaccinations_per_state = create_dataframe("us_state_vaccinations.csv")
+    remove_locations = vaccinations_per_state['location'].isin(['Bureau of Prisons', 'Dept of Defense', 'Long Term Care', 'United States', 'Indian Health Svc'])
+    vaccinations_per_state_v1 = vaccinations_per_state[~remove_locations]
+
+    # DROP ROWS WITH NAN VALUES IN THE TOTAL VACCINATIONS COLUMN
+    vaccinations_per_state_v2 = vaccinations_per_state_v1.dropna(subset=['total_vaccinations'])
+    #print(vaccinations_per_state_v1.location.unique())
+    print(vaccinations_per_state_v2['total_vaccinations'])
