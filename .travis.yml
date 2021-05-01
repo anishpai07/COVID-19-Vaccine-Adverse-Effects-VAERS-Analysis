@@ -9,4 +9,4 @@ install:
 # command to install dependencies
 
 script:
-  - pytest
+  python vaers.py
