@@ -3,7 +3,8 @@ import numpy as np
 
 
 def create_dataframe(filename: str):
-    """Takes the filename as a parameter and loads the data and returns its DataFrame.
+    """
+    Takes the filename as a parameter and loads the data and returns its DataFrame.
 
     param filename: Name of the file for which the DataFrame will be created.
     :return: The DataFrame with all its rows and columns.
@@ -43,17 +44,21 @@ if __name__ == "__main__":
     vaccinations_per_state_v1 = vaccinations_per_state[~remove_locations]
 
     # DROP ROWS WITH NAN VALUES IN THE TOTAL VACCINATIONS COLUMN
-    # vaccinations_per_state_v2 = vaccinations_per_state_v1.dropna(subset=['total_vaccinations'])
     vaccinations_per_state_v2 = drop_null_values(vaccinations_per_state_v1, 'total_vaccinations')
     # print(vaccinations_per_state_v1.location.unique())
-    # print(vaccinations_per_state_v2['total_vaccinations'])
 
-    # GET ALL VACCINATION DATA FOR COVID 19 VACCINES ONLY.
+    # GET ALL VACCINATION DATA FOR COVID-19 VACCINES ONLY.
     vaers_vax_v1 = vaers_vax[vaers_vax['VAX_TYPE'] == 'COVID19']
     vaers_vax_v2 = vaers_vax_v1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
-    #print(vaers_vax_v2.info)
+    # print(vaers_vax_v2.info)
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
-    print(vaers_data_vax.info)
+    # print(vaers_data_vax.isnull().sum())
+
+    # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
+
+    # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
+    vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
+    print(vaers_data_vax_v1)
 
