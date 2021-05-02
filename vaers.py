@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import plotly.express as px
 
 
 def create_dataframe(filename: str):
@@ -27,19 +28,19 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     return dataframe
 
 
-
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     """
 
     :param dataframe: vaer_data
     :return: cleaned data set
     """
-    #print(dataframe)
+    # print(dataframe)
     dataframe['ALLERGIES'] = dataframe['ALLERGIES'].replace(
         ['Na', 'None', 'N/A', 'none', 'N/a', 'n/a', 'None known', 'No', 'None according to consent form she filled out',
          'no known allergies', '',
          'No known allergies', '0', '----', '-', 'No known allergies', 'None Stated', 'No history of allergies',
-         'None reported', '#Name?', '(Blank)', 'No Known Allergies to medication', 'none that I am aware of', 'None according to consent form she filled out',
+         'None reported', '#Name?', '(Blank)', 'No Known Allergies to medication', 'none that I am aware of',
+         'None according to consent form she filled out',
          'no known allergies', 'None reported', 'no known', 'No known', 'Not that I know of.', 'No known allergies',
          'Not that I know of', 'None noted', 'NONE LISTED', 'unknown',
          'NO KNOWN ALLERGIES', 'No allergies', 'No known drug allergies', 'No Known Allergies', 'None disclosed', 'NO',
@@ -49,26 +50,27 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
          'No known drug/food allergies',
          'No any allergies', 'No Known Drug Allergies', 'no allergies'], 'NaN')
 
-    dataframe['HISTORY'] = dataframe['HISTORY'].replace(['Na', 'None', 'NONE', 'N/A', 'none', 'N/a', 'n/a', 'None known', 'No',
-                                           'None according to consent form she filled out', 'no known allergies', '',
-                                           'None on record', '0', '----', '-', 'not available', 'None Stated',
-                                           'None per client', 'None reported', 'none applicable', '(Blank)',
-                                           'None reported', 'none that I am aware of',
-                                            'None according to consent form she filled out',
-                                           'NONE TO SPEAK OF', 'None reported', 'no known', 'No known',
-                                           'None identified', 'NONE NOTED', 'Not that I know of', 'None noted',
-                                           'NONE LISTED', 'unknown',
-                                           ], 'NaN')
+    dataframe['HISTORY'] = dataframe['HISTORY'].replace(
+        ['Na', 'None', 'NONE', 'N/A', 'none', 'N/a', 'n/a', 'None known', 'No',
+         'None according to consent form she filled out', 'no known allergies', '',
+         'None on record', '0', '----', '-', 'not available', 'None Stated',
+         'None per client', 'None reported', 'none applicable', '(Blank)',
+         'None reported', 'none that I am aware of',
+         'None according to consent form she filled out',
+         'NONE TO SPEAK OF', 'None reported', 'no known', 'No known',
+         'None identified', 'NONE NOTED', 'Not that I know of', 'None noted',
+         'NONE LISTED', 'unknown',
+         ], 'NaN')
 
+    return dataframe
 
 
 if __name__ == "__main__":
-
     # LOAD ALL VAERS DATASETS.
     vaers_data = create_dataframe("2021VAERSData.csv")
     vaers_symptoms = create_dataframe("2021VAERSSYMPTOMS.csv")
     vaers_vax = create_dataframe("2021VAERSVAX.csv")
-    # print(vaers_data)
+    # print(vaers_vax)
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -82,8 +84,6 @@ if __name__ == "__main__":
     vaccinations_per_state_v2 = drop_null_values(vaccinations_per_state_v1, 'total_vaccinations')
     # print(vaccinations_per_state_v1.location.unique())
 
-
-
     # GET ALL VACCINATION DATA FOR COVID-19 VACCINES ONLY.
     vaers_vax_v1 = vaers_vax[vaers_vax['VAX_TYPE'] == 'COVID19']
     vaers_vax_v2 = vaers_vax_v1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
@@ -96,9 +96,18 @@ if __name__ == "__main__":
     # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
 
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
-    vaers_data_vax_v2 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
+    vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
+    vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
+    print(vaers_data_vax_v1)
 
     # CLEANING HISTORY AND ALLERGY COLUMNS
-    vaers_data_vax_v3 =replace_garbage_values_with_nan(vaers_data_vax)
+    vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
     # print(vaers_data_vax_v2)
 
+
+    # VEDANT VISUALIZATION
+
+
+
+
+    # ANISH VIZ
