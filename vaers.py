@@ -98,11 +98,16 @@ if __name__ == "__main__":
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
-    print(vaers_data_vax_v1)
+    print(vaers_data_vax_v2)
 
     # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
     # print(vaers_data_vax_v2)
+
+
+    # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
+    fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU")
+    fig.show()
 
 
     # VEDANT VISUALIZATION
