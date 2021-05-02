@@ -64,6 +64,14 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
     return dataframe
 
+def avg_onset(df):
+    '''
+
+    :param df: Dataframe
+    :return: Mean of the days between vaccine and onset of symptoms
+    '''
+    mean = int(df["Days"].dt.days.mean())
+    return mean
 
 if __name__ == "__main__":
     # LOAD ALL VAERS DATASETS.
@@ -91,6 +99,9 @@ if __name__ == "__main__":
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
+
+
+
     # print(vaers_data_vax.isnull().sum())
 
     # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
@@ -116,3 +127,30 @@ if __name__ == "__main__":
 
 
     # ANISH VIZ
+
+    vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
+    whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID', how='left') #Whole dataset merged into a dataframe
+
+    relevant_data = whole_dataset.filter(['VAX_NAME', 'VAX_DATE', 'ONSET_DATE']) #Extracted relevant columns from the dataframe
+
+    relevant_data['ONSET_DATE'] = pd.to_datetime(relevant_data['ONSET_DATE']) #convert columns into appropriate format
+    relevant_data['VAX_DATE'] = pd.to_datetime(relevant_data['VAX_DATE'])
+
+    relevant_data['Days'] = (relevant_data['ONSET_DATE'] - relevant_data['VAX_DATE']) #Finding number of days between vacc and symptoms
+    #print(relevant_data)
+
+    moderna = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (MODERNA))']
+    moderna_v1 = moderna[moderna.Days.notnull()]
+
+    pfizer = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (PFIZER-BIONTECH))']
+    pfizer_v1 = pfizer[pfizer.Days.notnull()]
+
+    janssen = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (JANSSEN))']
+    janssen_v1 = janssen[janssen.Days.notnull()]
+
+    moderna_onset = avg_onset(moderna_v1)
+    print(moderna_onset)
+    pfizer_onset = avg_onset(pfizer_v1)
+    print(pfizer_onset)
+    janssen_onset = avg_onset(janssen_v1)
+    print(janssen_onset)
