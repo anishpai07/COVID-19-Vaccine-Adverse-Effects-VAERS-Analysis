@@ -37,3 +37,14 @@ We have analyzed for now how many people with exiting issues developed any sympt
 
 <b>Future Implementation:</b><br>
 For more more complex analysis we will then add correlation between existing health condition and the type of symptoms developed by the patient and then draw a comparison graph of which existing medical condition caused or was associated to how any symptoms.
+
+### Hypothesis 3
+<b>Hypothesis: </b>Experts predict that usually the onset of the symptoms from the side effect of vaccines usually start to hit within 24 hours of the dose and do not stretch 7 days post the vaccination <br>
+<br>
+A lot of data is the dataset was missing. This dataset there were lot of typing mistakes as well, which were affecting the graphs and the calulations. Hence a lot of data cleaning had to be performed on this dataset <br>
+I have considered the data of the 3 Major vaccines: Moderna, Pfizer and Jannsen.
+
+H0: Onset of symptoms from the vaccine start with 24 hours of the vaccination <br>
+HA: Onset of symptoms from the vaccine start after 24 hours of the vaccination
+
+<img src="moderna.jpg" width="450" height="450">
