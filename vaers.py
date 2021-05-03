@@ -19,10 +19,11 @@ def create_dataframe(filename: str):
 
 def drop_null_values(dataframe: pd.DataFrame, subset: str):
     """
+    Drops all data rows which has null values in the column passed  ib the function call
 
     :param dataframe:
     :param subset:
-    :return:
+    :return: DATAFRAME OF EACH FILE DATA
     """
     subset_list = [subset]
     dataframe = dataframe.dropna(subset=subset_list)
@@ -31,9 +32,10 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 
 def hypothesis_validation(dataframe: pd.DataFrame):
     """
+    This functions is used to compare the data frame and count number of people having symptoms based on prior health conditions.
 
     :param dataframe:
-    :return:
+    :return: list of count of people with and without symptoms
     """
     compare = np.where(dataframe['HISTORY'] == dataframe['ALLERGIES'], True, False)
     dataframe["Comparison"] = compare
@@ -41,13 +43,16 @@ def hypothesis_validation(dataframe: pd.DataFrame):
     vaers_data_vax_v5 = dataframe[dataframe['Comparison'] == False]
     history_allergies_count = vaers_data_vax_v5.shape[0]
     no_history_allergies_count = vaers_data_vax_v4.shape[0]
-    # vaers_data_vax_v5 = vaers_data_vax_v4[['VAERS_ID', 'HISTORY', 'ALLERGIES', 'Comparison']]
 
     return ([no_history_allergies_count, history_allergies_count])
 
 
 def hypothesis_visualization(count):
+    """
+     This function develops pie chart to test HYPOTHESIS 3
 
+    :param count: List of total number of people who developed symptoms with/without having prior health symptoms
+    """
     mylabels = ["Without prior allergy and medical history", " With prior allergy and medical history"]
     myexplode = [0.2, 0]
     mycolors = ["c", "y"]
@@ -58,11 +63,12 @@ def hypothesis_visualization(count):
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     """
+    Cleaning the data to normalize data in HISTORY and ALLERGIES columns in VAERSDATA dateset
 
     :param dataframe: vaer_data
     :return: cleaned data set
     """
-    # print(dataframe)
+
     dataframe['ALLERGIES'] = dataframe['ALLERGIES'].replace(
         ['Na', 'None', 'N/A', 'none', 'N/a', 'n/a', 'None known', 'No', 'None according to consent form she filled out',
          'no known allergies', '',
@@ -108,7 +114,6 @@ if __name__ == "__main__":
     vaers_data = create_dataframe("2021VAERSData.csv")
     vaers_symptoms = create_dataframe("2021VAERSSYMPTOMS.csv")
     vaers_vax = create_dataframe("2021VAERSVAX.csv")
-    # print(vaers_vax)
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -120,14 +125,12 @@ if __name__ == "__main__":
 
     # DROP ROWS WITH NAN VALUES IN THE TOTAL VACCINATIONS COLUMN
     vaccinations_per_state_v2 = drop_null_values(vaccinations_per_state_v1, 'total_vaccinations')
-    # print(vaccinations_per_state_v1.location.unique())
 
     # DATA CLEANING AND PREPROCESSING: VAERS VAX
 
     # GET ALL VACCINATION DATA FOR COVID-19 VACCINES ONLY.
     vaers_vax_v1 = vaers_vax[vaers_vax['VAX_TYPE'] == 'COVID19']
     vaers_vax_v2 = vaers_vax_v1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
-    # print(vaers_vax_v2.info)
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
@@ -137,7 +140,6 @@ if __name__ == "__main__":
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
-    # print(vaers_data_vax_v1)
 
     # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
@@ -148,13 +150,11 @@ if __name__ == "__main__":
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
     fig.show()
 
-    # VEDANT VISUALIZATION
+    # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
     hypothesis_visualization(output)
 
-
-    # ANISH VIZ
-
+    # HYPOTHESIS ONE VISUALISATION
     vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
     whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID',
                                              how='left')  # Whole dataset merged into a dataframe
@@ -167,7 +167,6 @@ if __name__ == "__main__":
 
     relevant_data['Days'] = (relevant_data['ONSET_DATE'] - relevant_data[
         'VAX_DATE'])  # Finding number of days between vacc and symptoms
-    # print(relevant_data)
 
     moderna = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (MODERNA))']
     moderna_v1 = moderna[moderna.Days.notnull()]
