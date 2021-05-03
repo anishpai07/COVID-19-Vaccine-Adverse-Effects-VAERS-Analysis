@@ -14,7 +14,14 @@ Our goal is to analyze COVID-19 vaccination data by exploring the VAERS Vaccinat
 
 ### Hypothesis 1
 Conducting a test to identify which vaccine manufacturer had the lowest count of reported adverse effects. <br>
-Note: This is indicative only of the REPORTED cases within the VAERS Datasets, and does not take into account the total number of cases across all vaccinations.
+Note: This is indicative only of the REPORTED cases within the VAERS Datasets, and does not take into account the total number of cases across all vaccinations. <br>
+Hence we can only prove correlation and not causation.
 
-H0: Vaccines manufactured by Moderna have the lowest count of reported adverse effects.
+H0: Vaccines manufactured by Moderna have the lowest count of reported adverse effects. <br>
+HA: Vaccines manufactered by Morderna do not have the lowest count of reported adverse effects.
+
+<img src="https://user-images.githubusercontent.com/71370024/116842764-4a547500-aba3-11eb-9837-baa5533200f6.png" width="450" height="520">
+
+
+
 
