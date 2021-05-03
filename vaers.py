@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import matplotlib.pyplot as plt
 
 
 def create_dataframe(filename: str):
@@ -42,7 +43,8 @@ def hypothesis_validation(dataframe: pd.DataFrame):
     no_history_allergies_count = vaers_data_vax_v4.shape[0]
     # vaers_data_vax_v5 = vaers_data_vax_v4[['VAERS_ID', 'HISTORY', 'ALLERGIES', 'Comparison']]
 
-    print(no_history_allergies_count, history_allergies_count)
+    return ([no_history_allergies_count, history_allergies_count])
+
 
 
 
@@ -144,7 +146,13 @@ if __name__ == "__main__":
 
 
     # VEDANT VISUALIZATION
-    hypothesis_validation(vaers_data_vax_v3)
+    output=hypothesis_validation(vaers_data_vax_v3)
+    myLabels=["With prior allergy and medical history"," Without prior allergy and medical history"]
+    myExplode = [0.2, 0]
+    mycolors = ["c","y"]
+    plt.pie(output, labels=myLabels,explode=myExplode, shadow=True, colors=mycolors)
+    plt.legend(title="Number of people")
+    plt.show()
 
 
 
