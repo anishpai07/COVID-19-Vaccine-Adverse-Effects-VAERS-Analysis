@@ -183,3 +183,13 @@ if __name__ == "__main__":
     # print(pfizer_onset)
     janssen_onset = avg_onset(janssen_v1)
     # print(janssen_onset)
+    vacc_date = '2020-1-1'
+    moderna_after_2020 = moderna_v1['VAX_DATE'] >= vacc_date
+    filtered_dates = moderna_v1.loc[moderna_after_2020]
+
+    filtered_dates_1 = filtered_dates["Days"].astype('timedelta64[D]')
+
+    fig1 = px.histogram(filtered_dates_1, x="Days", width=650,
+                       title="Number of Reported Adverse Cases By Vaccine Manufacturers")
+    #fig1.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
+    fig1.show()
