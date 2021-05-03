@@ -122,6 +122,8 @@ if __name__ == "__main__":
     vaccinations_per_state_v2 = drop_null_values(vaccinations_per_state_v1, 'total_vaccinations')
     # print(vaccinations_per_state_v1.location.unique())
 
+    # DATA CLEANING AND PREPROCESSING: VAERS VAX
+
     # GET ALL VACCINATION DATA FOR COVID-19 VACCINES ONLY.
     vaers_vax_v1 = vaers_vax[vaers_vax['VAX_TYPE'] == 'COVID19']
     vaers_vax_v2 = vaers_vax_v1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
@@ -149,6 +151,8 @@ if __name__ == "__main__":
     # VEDANT VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
     hypothesis_visualization(output)
+
+
     # ANISH VIZ
 
     vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
