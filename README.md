@@ -18,7 +18,7 @@ Note: This is indicative only of the REPORTED cases within the VAERS Datasets, a
 Hence we can only prove correlation and not causation.
 
 H0: Vaccines manufactured by Moderna have the lowest count of reported adverse effects. <br>
-HA: Vaccines manufactered by Morderna do not have the lowest count of reported adverse effects.
+HA: A vaccine manufactured by a company other than Moderna will have the lowest count of reported adverse effects.
 
 <img src="https://user-images.githubusercontent.com/71370024/116842764-4a547500-aba3-11eb-9837-baa5533200f6.png" width="450" height="520">
 
@@ -29,9 +29,9 @@ HA: Vaccines manufactered by Morderna do not have the lowest count of reported a
 The Aim of this hypothesis is to determine if any existing allergies and health conditions played a role in person developing symptoms post covid vaccination.<br>
 
 <b>Note:</b> For presentation purpose we have just cleaned the complete data set to normalize existing allergies and existing medical history column so that we could do some analyses.<br>
-We have analyzed for now how many people with exiting issues developed any symptom against people with no existng issues developing symptoms post getting vaccinated.
+We have analyzed for now how many people with existing issues developed any symptom against people with no existng issues developing symptoms post getting vaccinated.
 
-<img src="Capture.PNG" width="450" height="450">
+<img src="Capture.PNG" width="450" height="400">
 <br>
 
 
