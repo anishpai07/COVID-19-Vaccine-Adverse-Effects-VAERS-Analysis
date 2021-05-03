@@ -82,6 +82,7 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
     return dataframe
 
+
 def avg_onset(df):
     '''
 
@@ -90,6 +91,7 @@ def avg_onset(df):
     '''
     mean = int(df["Days"].dt.days.mean())
     return mean
+
 
 if __name__ == "__main__":
     # LOAD ALL VAERS DATASETS.
@@ -135,7 +137,9 @@ if __name__ == "__main__":
 
 
     # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
-    fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU")
+    fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
+                       title="Number of Reported Adverse Cases By Vaccine Manufacturers")
+    fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
     fig.show()
 
 
@@ -167,8 +171,8 @@ if __name__ == "__main__":
     janssen_v1 = janssen[janssen.Days.notnull()]
 
     moderna_onset = avg_onset(moderna_v1)
-     #print(moderna_onset)
+    # print(moderna_onset)
     pfizer_onset = avg_onset(pfizer_v1)
-     #print(pfizer_onset)
+    # print(pfizer_onset)
     janssen_onset = avg_onset(janssen_v1)
-     #print(janssen_onset)
+    # print(janssen_onset)
