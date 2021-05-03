@@ -47,12 +47,12 @@ def hypothesis_validation(dataframe: pd.DataFrame):
 
 
 def hypothesis_visualization(count):
-    #output = hypothesis_validation(vaers_data_vax_v3)
-    mylabels = ["With prior allergy and medical history", " Without prior allergy and medical history"]
+
+    mylabels = ["Without prior allergy and medical history", " With prior allergy and medical history"]
     myexplode = [0.2, 0]
     mycolors = ["c", "y"]
     plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
-    plt.legend(title="Number of people")
+    plt.legend(title="Number of Reported persons")
     plt.show()
 
 
