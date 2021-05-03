@@ -194,4 +194,4 @@ if __name__ == "__main__":
     fig1 = px.histogram(filtered_dates_1, x="Days", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     #fig1.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    fig1.show()
+    #fig1.show()
