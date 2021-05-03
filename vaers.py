@@ -46,6 +46,14 @@ def hypothesis_validation(dataframe: pd.DataFrame):
     return ([no_history_allergies_count, history_allergies_count])
 
 
+def hypothesis_visualization(count):
+    #output = hypothesis_validation(vaers_data_vax_v3)
+    mylabels = ["With prior allergy and medical history", " Without prior allergy and medical history"]
+    myexplode = [0.2, 0]
+    mycolors = ["c", "y"]
+    plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
+    plt.legend(title="Number of people")
+    plt.show()
 
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
@@ -122,21 +130,15 @@ if __name__ == "__main__":
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
 
-
-
-    # print(vaers_data_vax.isnull().sum())
-
     # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
 
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
-    #print(vaers_data_vax_v1)
+    # print(vaers_data_vax_v1)
 
     # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
-
-
 
     # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
     fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
@@ -144,30 +146,24 @@ if __name__ == "__main__":
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
     fig.show()
 
-
     # VEDANT VISUALIZATION
-    output=hypothesis_validation(vaers_data_vax_v3)
-    myLabels=["With prior allergy and medical history"," Without prior allergy and medical history"]
-    myExplode = [0.2, 0]
-    mycolors = ["c","y"]
-    plt.pie(output, labels=myLabels,explode=myExplode, shadow=True, colors=mycolors)
-    plt.legend(title="Number of people")
-    plt.show()
-
-
-
+    output = hypothesis_validation(vaers_data_vax_v3)
+    hypothesis_visualization(output)
     # ANISH VIZ
 
     vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
-    whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID', how='left') #Whole dataset merged into a dataframe
+    whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID',
+                                             how='left')  # Whole dataset merged into a dataframe
 
-    relevant_data = whole_dataset.filter(['VAX_NAME', 'VAX_DATE', 'ONSET_DATE']) #Extracted relevant columns from the dataframe
+    relevant_data = whole_dataset.filter(
+        ['VAX_NAME', 'VAX_DATE', 'ONSET_DATE'])  # Extracted relevant columns from the dataframe
 
-    relevant_data['ONSET_DATE'] = pd.to_datetime(relevant_data['ONSET_DATE']) #convert columns into appropriate format
+    relevant_data['ONSET_DATE'] = pd.to_datetime(relevant_data['ONSET_DATE'])  # convert columns into appropriate format
     relevant_data['VAX_DATE'] = pd.to_datetime(relevant_data['VAX_DATE'])
 
-    relevant_data['Days'] = (relevant_data['ONSET_DATE'] - relevant_data['VAX_DATE']) #Finding number of days between vacc and symptoms
-    #print(relevant_data)
+    relevant_data['Days'] = (relevant_data['ONSET_DATE'] - relevant_data[
+        'VAX_DATE'])  # Finding number of days between vacc and symptoms
+    # print(relevant_data)
 
     moderna = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (MODERNA))']
     moderna_v1 = moderna[moderna.Days.notnull()]
