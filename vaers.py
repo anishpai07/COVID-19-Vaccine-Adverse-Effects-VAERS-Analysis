@@ -28,6 +28,24 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     return dataframe
 
 
+def hypothesis_validation(dataframe: pd.DataFrame):
+    """
+
+    :param dataframe:
+    :return:
+    """
+    compare = np.where(dataframe['HISTORY'] == dataframe['ALLERGIES'], True, False)
+    dataframe["Comparison"] = compare
+    vaers_data_vax_v4 = dataframe[dataframe['Comparison'] == True]
+    vaers_data_vax_v5 = dataframe[dataframe['Comparison'] == False]
+    history_allergies_count = vaers_data_vax_v5.shape[0]
+    no_history_allergies_count = vaers_data_vax_v4.shape[0]
+    # vaers_data_vax_v5 = vaers_data_vax_v4[['VAERS_ID', 'HISTORY', 'ALLERGIES', 'Comparison']]
+
+    print(no_history_allergies_count, history_allergies_count)
+
+
+
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     """
 
@@ -42,7 +60,7 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
          'None reported', '#Name?', '(Blank)', 'No Known Allergies to medication', 'none that I am aware of',
          'None according to consent form she filled out',
          'no known allergies', 'None reported', 'no known', 'No known', 'Not that I know of.', 'No known allergies',
-         'Not that I know of', 'None noted', 'NONE LISTED', 'unknown',
+         'Not that I know of', 'None noted', 'NONE LISTED', 'unknown', 'Unknown', 'none known',
          'NO KNOWN ALLERGIES', 'No allergies', 'No known drug allergies', 'No Known Allergies', 'None disclosed', 'NO',
          'None per patient report', 'no', 'None stated', 'NONE', 'NO Known Allergies', 'none on file', '-none-',
          'None that the patient reported', 'No known defined allergies.', 'No confirmed allergies.',
@@ -57,7 +75,7 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
          'None per client', 'None reported', 'none applicable', '(Blank)',
          'None reported', 'none that I am aware of',
          'None according to consent form she filled out',
-         'NONE TO SPEAK OF', 'None reported', 'no known', 'No known',
+         'NONE TO SPEAK OF', 'None reported', 'no known', 'No known', 'Unknown', 'none known',
          'None identified', 'NONE NOTED', 'Not that I know of', 'None noted',
          'NONE LISTED', 'unknown',
          ], 'NaN')
@@ -109,11 +127,11 @@ if __name__ == "__main__":
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
-    print(vaers_data_vax_v2)
+    #print(vaers_data_vax_v1)
 
     # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
-    # print(vaers_data_vax_v2)
+
 
 
     # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
@@ -122,7 +140,7 @@ if __name__ == "__main__":
 
 
     # VEDANT VISUALIZATION
-
+    hypothesis_validation(vaers_data_vax_v3)
 
 
 
@@ -149,8 +167,8 @@ if __name__ == "__main__":
     janssen_v1 = janssen[janssen.Days.notnull()]
 
     moderna_onset = avg_onset(moderna_v1)
-    print(moderna_onset)
+     #print(moderna_onset)
     pfizer_onset = avg_onset(pfizer_v1)
-    print(pfizer_onset)
+     #print(pfizer_onset)
     janssen_onset = avg_onset(janssen_v1)
-    print(janssen_onset)
+     #print(janssen_onset)
