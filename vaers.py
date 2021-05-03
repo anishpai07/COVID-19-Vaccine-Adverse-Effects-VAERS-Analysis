@@ -30,6 +30,8 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     return dataframe
 
 
+
+
 def hypothesis_validation(dataframe: pd.DataFrame):
     """
     This functions is used to compare the data frame and count number of people having symptoms based on prior health conditions.
