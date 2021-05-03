@@ -24,11 +24,11 @@ HA: Vaccines manufactered by Morderna do not have the lowest count of reported a
 
 ### Hypothesis 2
 
-Hypothesis : People with underlying health conditions or allergies are more likely to develop symptoms after taking a vaccine.<br>
+<b>Hypothesis :</b> People with underlying health conditions or allergies are more likely to develop symptoms after taking a vaccine.<br>
 
 The Aim of this hypothesis is to determine if any existing allergies and health conditions played a role in person developing symptoms post covid vaccination.<br>
 
-Note: For presentation purpose we have just cleaned the complete data set to normalize existing allergies and existing medical history column so that we could do some analyses.<br>
+<b>Note:</b> For presentation purpose we have just cleaned the complete data set to normalize existing allergies and existing medical history column so that we could do some analyses.<br>
 We have analyzed for now how many people with exiting issues developed any symptom against people with no existng issues developing symptoms post getting vaccinated.
 
 <img src="Capture.PNG" width="450" height="450">
