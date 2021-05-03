@@ -47,4 +47,18 @@ I have considered the data of the 3 Major vaccines: Moderna, Pfizer and Jannsen.
 H0: Onset of symptoms from the vaccine start with 24 hours of the vaccination <br>
 HA: Onset of symptoms from the vaccine start after 24 hours of the vaccination
 
-<img src="moderna.jpg" width="450" height="450">
+Onset of Symptoms after being vaccinated by Moderna vaccine <br>
+![image](https://user-images.githubusercontent.com/77980026/116882112-ab06a080-abe9-11eb-8552-55b74859029b.png)
+
+Onset of Symptoms after being vaccinated by Pfizer vaccine <br>
+![image](https://user-images.githubusercontent.com/77980026/116882008-90342c00-abe9-11eb-89c5-be5d17aedf61.png)
+
+Onset of symptoms after being vaccinated by Jannsen vaccine <br>
+![image](https://user-images.githubusercontent.com/77980026/116882045-9b875780-abe9-11eb-8862-6075261052b1.png)
+
+The graphs clearly show that in most of the cases the symptoms do start to show up in the first 48 hours. <br>
+
+Further Analysis <br>
+We have another dataset containing the number of COVID vaccines administered everyday in the month of January 2021 in all the states of the US. We plan to use this to compare the number of cases with side effects reported with the number of vaccines administered per state
+ 
+
