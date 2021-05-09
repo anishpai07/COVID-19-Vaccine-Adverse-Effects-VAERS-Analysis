@@ -110,6 +110,9 @@ def avg_onset(df):
     mean = int(df["Days"].dt.days.mean())
     return mean
 
+def time_to_int(t):
+    return int(str(t).split(' ')[0])
+
 
 if __name__ == "__main__":
     # LOAD ALL VAERS DATASETS.
