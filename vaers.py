@@ -107,7 +107,7 @@ def avg_onset(df):
     :param df: Dataframe
     :return: Mean of the days between vaccine and onset of symptoms
     '''
-    mean = int(df["Days"].dt.days.mean())
+    mean = int(df["Days"].mean())
     return mean
 
 def time_to_int(t):
