@@ -99,6 +99,7 @@ def hypothesis_visualization(count):
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     """
+    dummy
     Cleaning the data to normalize data in HISTORY and ALLERGIES columns in VAERSDATA dateset
 
     :param dataframe: vaer_data
