@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import matplotlib.pyplot as plt
+from sklearn import preprocessing
+from sklearn.preprocessing import MinMaxScaler
 
 
 def create_dataframe(filename: str):
@@ -30,6 +32,38 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     return dataframe
 
 
+def reformating_vaccine_count_data(dataframe):
+    modern_count = 0
+    pfizer_count = 0
+    Janssen_count = 0
+    others = 0
+    for x in dataframe['VAX_MANU']:
+        if x == 'MODERNA':
+            modern_count = modern_count + 1
+        elif x == 'PFIZER\BIONTECH':
+            pfizer_count = pfizer_count + 1
+        elif x == 'JANSSEN':
+            Janssen_count = Janssen_count + 1
+        else:
+            others = +1
+
+    vaccination = {'vaccine_count': [modern_count, pfizer_count, Janssen_count, others],
+                   'Vaccine_Brand': ['Moderna', 'Pfizer', 'Janssen', 'Other']}
+    df = pd.DataFrame(vaccination, columns=['Vaccine_Brand', 'vaccine_count'])
+    return df
+
+
+def normalizing_columns(df):
+    df1 = df.copy()
+
+    #df1['vaccine_count'] = MinMaxScaler().fit_transform(np.array(df1['vaccine_count'].reshape(0, 1)))
+    df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (df1['vaccine_count'].max() - df1['vaccine_count'].min())
+    print(df1)
+    # Not working will check later
+    fig = px.histogram(df1, x="Vaccine_Brand", width=650,
+                       title="Number of Reported Adverse Cases By Vaccine Manufacturers")
+    fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
+    fig.show()
 
 
 def hypothesis_validation(dataframe: pd.DataFrame):
@@ -102,12 +136,11 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
 
 def avg_onset(df):
-    '''
-
+    """
     :param df: Dataframe
     :return: Mean of the days between vaccine and onset of symptoms
-    '''
-    mean = int(df["Days"].mean())
+    """
+    mean = int(df["Days"].dt.days.mean())
     return mean
 
 def time_to_int(t):
@@ -149,7 +182,11 @@ if __name__ == "__main__":
     # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
 
+    # NORMALIZING THE DATASET FOR CORRECT ACCURACY
+    normalizing_columns(reformating_vaccine_count_data(vaers_data_vax_v2))
+
     # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
+    # Can remove this below code moved it to a function
     fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
@@ -159,7 +196,7 @@ if __name__ == "__main__":
     output = hypothesis_validation(vaers_data_vax_v3)
     hypothesis_visualization(output)
 
-    # HYPOTHESIS ONE VISUALISATION
+    # HYPOTHESIS ONE VISUALISATION ## make a function for it
     vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
     whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID',
                                              how='left')  # Whole dataset merged into a dataframe
