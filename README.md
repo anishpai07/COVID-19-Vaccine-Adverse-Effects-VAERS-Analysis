@@ -86,19 +86,19 @@ Below is our analysis of the most common symptoms reported by vaccine type:
 
 <img src="Moderna.PNG" width="450" height="400">
 
-<p>In the above graph showing symptoms reported post taking Moderna Vaccine. It is clear that the most reported symptoms are chills and injection site erythema</p>
+<p>In the above graph showing symptoms reported post taking Moderna Vaccine. It is clear that the most reported symptoms are chills and injection site erythema.</p>
 
 <b> 2: Pfizer Vaccine</b>
 
 <img src="Pfizer.PNG.PNG" width="450" height="400">
 
-<p>In the above graph showing symptoms reported post taking Pfizer Vaccine. It is clear that the most reported symptoms are chills and headaches</p>
+<p>In the above graph showing symptoms reported post taking Pfizer Vaccine. It is clear that the most reported symptoms are chills and headaches.</p>
 
 <b> 3: Johnson and Johnson Vaccine</b>
 
 <img src="Janssen.PNG.PNG" width="450" height="400">
 
-<p>In the above graph showing symptoms reported post taking Janssen Vaccine. It is clear that the most reported symptom are chills and dizziness</p>
+<p>In the above graph showing symptoms reported post taking Janssen Vaccine. It is clear that the most reported symptom are chills and dizziness.</p>
 
 <b>Conclusion:</b> From the above graphs its clear that our hypothesis can be rejected. We can conclude that chills is the most common reported symptoms among all vaccines and not injection site pain.
 
