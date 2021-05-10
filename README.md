@@ -4,25 +4,38 @@
 2) Anish Pai (asp8), GitHub: anishpai07 <br>
 3) Vedant Desai (vdesai29), GitHub: vedantdesai28 <br>
 
+
 ## Vaccine Adverse Effect Reporting System (VAERS) Analysis for COVID-19 Vaccines. <br>
 
 ### About VAERS
+![vaers](https://user-images.githubusercontent.com/71370024/117694424-c0993e80-b184-11eb-863f-8a6a56bae57c.jpg) <br>
+_image referenced from covidvaccine.mo.gov <br>_<br>
 Established in 1990, the Vaccine Adverse Event Reporting System (VAERS) is a national early warning system to detect possible safety problems in U.S.-licensed vaccines. VAERS is co-managed by the Centers for Disease Control and Prevention (CDC) and the U.S. Food and Drug Administration (FDA). VAERS accepts and analyzes reports of adverse events (possible side effects) after a person has received a vaccination.
 
 ### Project Goal
-![image](https://user-images.githubusercontent.com/77980026/116890474-46e8da00-abf3-11eb-8630-89a6e2d54410.png)
-
-Our goal is to analyze COVID-19 vaccination data by exploring the VAERS Vaccination, VAERS Patient Data and VAERS Symptoms datasets. We will not only be exploring three different COVID Vaccines (MODERNA, PFIZER, JANSSEN) related data but will also look into Patient data such as age, any pre-existing medical conditions, allergies, etc. Finally, also want to get an idea of which vaccine has proven to be the most efficient in terms of preventing the recontraction of COVID and minimum resulting symptoms in the patient. 
+Our goal is to analyze COVID-19 vaccination data by exploring the VAERS Vaccination, VAERS Patient Data and VAERS Symptoms datasets for the dates JAN-APRIL 2021. We will not only be exploring three different COVID Vaccines (MODERNA, PFIZER, JANSSEN) related data but will also look into Patient data such as age, any pre-existing medical conditions, allergies, etc. Finally, also want to get an idea of which vaccine has proven to be the most efficient in terms of preventing the recontraction of COVID and minimum resulting symptoms in the patient. 
 
 ### Hypothesis 1
-Conducting a test to identify which vaccine manufacturer had the lowest count of reported adverse effects. <br>
-Note: This is indicative only of the REPORTED cases within the VAERS Datasets, and does not take into account the total number of cases across all vaccinations. <br>
-Hence we can only prove correlation and not causation.
+Conducting a test to identify which vaccine manufacturer had the lowest rate of reported adverse effects. <br>
 
-H0: Vaccines manufactured by Moderna have the lowest count of reported adverse effects. <br>
-HA: A vaccine manufactured by a company other than Moderna will have the lowest count of reported adverse effects.
+H0: Vaccines manufactured by Moderna have the lowest rate of reported adverse effects. <br>
+HA: A vaccine manufactured by a company other than Moderna will have the lowest rate of reported adverse effects. <br>
+
+Here, we observe the reported adverse cases for each vaccine manufacturer across all the states in the US. However, these numbers are inconclusive without knowing the total count of doses administered.
 
 <img src="https://user-images.githubusercontent.com/71370024/116842764-4a547500-aba3-11eb-9837-baa5533200f6.png" width="450" height="520">
+
+Hence, upon further analysis, we find that Pfizer had the largest number of doses distributed across all states, followed by Moderna and J&J. <br>
+
+<img src="https://user-images.githubusercontent.com/71370024/117696766-4d44fc00-b187-11eb-8935-c91fc79fedf9.png" width="450" height="520">
+
+We can calculate the Rate of VAERS reporting as follows: 
+
+Rate VAERS reports = Number of Reported Adverse Cases/Total Vaccines Administered * 100 <br>
+Rate VAERS (Pfizer) = 0.106% <br>
+Rate VAERS (Moderna) = 0.138% <br>
+
+Hence, we can reject H0 which stated that Moderna would have the lowest rate of reported adverse cases.
 
 ### Hypothesis 2
 
