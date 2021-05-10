@@ -100,6 +100,15 @@ Below is our analysis of the most common symptoms reported by vaccine type:
 
 <b>Conclusion:</b> From the above graphs its clear that our hypothesis can be rejected. We can conclude that chills is the most common reported symptoms among all vaccines and not injection site pain.
 
+## Hypothesis 5
+
+<b> Hypothesis: </b> New York is the most efficient state in administrating the vaccine doses.
+<p> In order to prove the hypothesis we calculated the efficiency of doses delivered for each state which is equal to doses administered upon doses allocated </p>
+
+<img src="hypo5.PNG" width="900" height="1000">
+
+<b>Conclusion:</b> From the above graphs its clear that our hypothesis is not correct and can be rejected. We can conclude that Michigan and South Dakota are the most efficient states in providing vaccines based on the doses administered and doses allocated. .
+
 
 ## References:
 1) VAERS Information: https://vaers.hhs.gov/index.html
