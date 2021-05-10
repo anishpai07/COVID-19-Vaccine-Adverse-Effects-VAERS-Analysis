@@ -2,13 +2,14 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def create_dataframe(filename: str):
     """
     Takes the filename as a parameter and loads the data and returns its DataFrame.
 
-    param filename: Name of the file for which the DataFrame will be created.
+    :param filename: Name of the file for which the DataFrame will be created.
     :return: The DataFrame with all its rows and columns.
 
     """
@@ -21,9 +22,9 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     """
     Drops all data rows which has null values in the column passed in the function.
 
-    :param dataframe:
-    :param subset:
-    :return: DATAFRAME OF EACH FILE DATA
+    :param dataframe: Dataframe whose column needs to be cleaned/processed
+    :param subset: The column name from the dataset that needs cleaning
+    :return: Dataframe with cleaned/processed columns
     """
     subset_list = [subset]
     dataframe = dataframe.dropna(subset=subset_list)
@@ -59,13 +60,15 @@ def reformating_vaccine_count_data(dataframe):
 
 def normalizing_columns(df):
     """
+    Normalizing the the total count of vaccines for each vaccine manufacturer
 
-    :param df:
-    :return:
+    :param df: DataFrame consisting of count of vaccines administered of each manufacturer
+    :return: Generates visualization for total vaccince count against total number of adverse
+     effect reported for each manufacturer type.
     """
     df1 = df.copy()
     df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (
-                df1['vaccine_count'].max() - df1['vaccine_count'].min())
+            df1['vaccine_count'].max() - df1['vaccine_count'].min())
 
     fig = px.histogram(df1, x="Vaccine_Brand", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
@@ -74,10 +77,11 @@ def normalizing_columns(df):
 
 def hypothesis_validation(dataframe: pd.DataFrame):
     """
-    This functions is used to compare the data frame and count number of people having symptoms based on prior health conditions.
+    This functions is used to compare the data frame and count number of people having symptoms based
+    on prior health conditions.
 
-    :param dataframe:
-    :return: list of count of people with and without symptoms
+    :param dataframe: dataframe consisting of symptoms data
+    :return: A list of count of people with and without symptoms
     """
     compare = np.where(dataframe['HISTORY'] == dataframe['ALLERGIES'], True, False)
     dataframe["Comparison"] = compare
@@ -100,12 +104,11 @@ def hypothesis_visualization(count):
     mycolors = ["c", "y"]
     plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
     plt.legend(title="Number of Reported persons")
-    # plt.show()
+    plt.show()
 
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     """
-    dummy
     Cleaning the data to normalize data in HISTORY and ALLERGIES columns in VAERSDATA dateset
 
     :param dataframe: vaer_data
@@ -153,36 +156,55 @@ def avg_onset(df):
 
 def time_to_int(t):
     """
+     Converts time from String data type to Integer.
 
-    :param t:
-    :return:
+    :param t: Time in string format
+    :return: Time in int data type
     """
     return int(str(t).split(' ')[0])
 
 
 def statewise_analysis(states_data):
     """
+    Grouping the state and vaccine type for each state and then calculating the sum total.
+    Also visualizing vaccines provided of each type per state.
 
-    :param states_data:
+    :param states_data: Vaccinations data of each state
     :return:
     """
     states_data.fillna(0)
     states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
+    states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
+    states_v1["Doses"] = states_v1["Doses_admin"] / states_v1["Doses_alloc"]
+    states_v1.replace([np.inf, -np.inf], np.nan, inplace=True)
+    states_v1.replace([np.nan], 0, inplace=True)
+
+    x = states_v1.index.map(lambda t: t[0])
+    y = states_v1.index.map(lambda t: t[1])
+    sns.set_palette("Set1", 8, .75)
+    doses = states_v1["Doses"]
+    df = pd.DataFrame({'states': x, 'vaccine': y, 'doses': doses})
+    sns.set(rc={'figure.figsize': (12.7, 9)})
+    ax = sns.histplot(df, x='states', hue='vaccine', weights='doses',
+                      multiple='stack', shrink=0.6)
+    ax.set_ylabel('doses')
+    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    legend = ax.get_legend()
+    legend.set_bbox_to_anchor((1, 1))
     plt.show()
-    # print(states_v1.columns)
     return states_v1
-    # print(states_v1['Doses_admin'])
-    # states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
-    # print(states_v2.head(10))
+
 
 
 def state_abbreviations(df):
     """
+    Mapping of state initials to corresponding state name.
+    ONLY THIS DICT (NOT FUNCTION) WAS REFERENCED FROM https://gist.github.com/rogerallen/1583593
 
-    :param df:
-    :return:
+    :param df: data frame consisting of States Initials
+    :return: Correctly mapped State names as per initials
     """
-    # ONLY THIS DICT (NOT FUNCTION) WAS REFERENCED FROM https://gist.github.com/rogerallen/1583593
+    #
     us_state_abbrev = {
         'Alabama': 'AL',
         'Alaska': 'AK',
@@ -277,7 +299,6 @@ if __name__ == "__main__":
     vax_dict = {'MODERNA': 'Moderna', 'PFIZER\BIONTECH': 'Pfizer'}
     vaers_vax_v2 = vaers_vax_v1.replace({"VAX_MANU": vax_dict})
     vaers_vax_v3 = vaers_vax_v2[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
-    print(vaers_vax_v3)
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
