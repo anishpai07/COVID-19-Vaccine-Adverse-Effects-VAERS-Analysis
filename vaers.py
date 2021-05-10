@@ -14,11 +14,11 @@ def create_dataframe(filename: str):
     :return: The DataFrame with all its rows and columns.
 
     >>> create_dataframe("test.csv")
-      Entities  Values PATIENT ALLERGIES  HISTORY  Days
-    0    Mango     NaN    Andy    Gluten       Na     2
-    1   Banana     1.0   Wayne       NaN     NONE     3
-    2    Apple     2.0    Colt        Na  unknown     1
-    3   Orange     3.0   Aaron    Pollen  5 years     5
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days Province_State
+    0    Mango     NaN    Andy    Gluten       Na     2           Ohio
+    1   Banana     1.0   Wayne       NaN     NONE     3       Illinois
+    2    Apple     2.0    Colt        Na  unknown     1     New Jersey
+    3   Orange     3.0   Aaron    Pollen  5 years     5       New York
 
     """
     df = pd.read_csv(filename, engine='python')
@@ -36,11 +36,10 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 
     >>> a = create_dataframe("test.csv")
     >>> drop_null_values(a, subset= "Values")
-      Entities  Values PATIENT ALLERGIES  HISTORY  Days
-    1   Banana     1.0   Wayne       NaN     NONE     3
-    2    Apple     2.0    Colt        Na  unknown     1
-    3   Orange     3.0   Aaron    Pollen  5 years     5
-
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days Province_State
+    1   Banana     1.0   Wayne       NaN     NONE     3       Illinois
+    2    Apple     2.0    Colt        Na  unknown     1     New Jersey
+    3   Orange     3.0   Aaron    Pollen  5 years     5       New York
     """
     subset_list = [subset]
     dataframe = dataframe.dropna(subset=subset_list)
@@ -55,6 +54,14 @@ def reformating_vaccine_count_data(dataframe):
 
     :param dataframe: dataframe containing vaccine doses data
     :return: dataframe: Dataframe consisting of vaccines and its number of doses given till date
+
+    >>> a = create_dataframe("test_vaccine.csv")
+    >>> reformating_vaccine_count_data(a)
+      Vaccine_Brand  vaccine_count
+    0       Moderna              5
+    1        Pfizer              5
+    2       Janssen              2
+    3         Other              1
     """
     modern_count = 0
     pfizer_count = 0
@@ -171,11 +178,11 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
     >>> a = create_dataframe("test.csv")
     >>> replace_garbage_values_with_nan(a)
-      Entities  Values PATIENT ALLERGIES  HISTORY  Days
-    0    Mango     NaN    Andy    Gluten      NaN     2
-    1   Banana     1.0   Wayne       NaN      NaN     3
-    2    Apple     2.0    Colt       NaN      NaN     1
-    3   Orange     3.0   Aaron    Pollen  5 years     5
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days Province_State
+    0    Mango     NaN    Andy    Gluten      NaN     2           Ohio
+    1   Banana     1.0   Wayne       NaN      NaN     3       Illinois
+    2    Apple     2.0    Colt       NaN      NaN     1     New Jersey
+    3   Orange     3.0   Aaron    Pollen  5 years     5       New York
 
     """
 
@@ -276,6 +283,14 @@ def state_abbreviations(df):
 
     :param df: data frame consisting of States Initials
     :return: Correctly mapped State names as per initials
+
+    >>> a = create_dataframe("test.csv")
+    >>> state_abbreviations(a)
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days Province_State
+    0    Mango     NaN    Andy    Gluten       Na     2             OH
+    1   Banana     1.0   Wayne       NaN     NONE     3             IL
+    2    Apple     2.0    Colt        Na  unknown     1             NJ
+    3   Orange     3.0   Aaron    Pollen  5 years     5             NY
     """
     #
     us_state_abbrev = {
