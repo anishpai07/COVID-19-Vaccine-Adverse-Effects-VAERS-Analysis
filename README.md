@@ -90,7 +90,7 @@ Below is our analysis of the most common symptoms reported by vaccine type:
 
 <b> 2: Pfizer Vaccine</b>
 
-<img src="Pfizer.PNG" width="450" height="400">
+<img src="Pfizer.PNG" width="600" height="700">
 
 <p>In the above graph showing symptoms reported post taking Pfizer Vaccine. It is clear that the most reported symptoms are chills and headaches.</p>
 
