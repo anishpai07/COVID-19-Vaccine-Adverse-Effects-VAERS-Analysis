@@ -14,11 +14,11 @@ def create_dataframe(filename: str):
     :return: The DataFrame with all its rows and columns.
 
     >>> create_dataframe("test.csv")
-      Entities  Values
-    0    Mango     NaN
-    1   Banana     1.0
-    2    Apple     2.0
-    3   Orange     3.0
+      Entities  Values PATIENT ALLERGIES  HISTORY
+    0    Mango     NaN    Andy    Gluten       Na
+    1   Banana     1.0   Wayne       NaN     NONE
+    2    Apple     2.0    Colt        Na  unknown
+    3   Orange     3.0   Aaron    Pollen  5 years
 
     """
     df = pd.read_csv(filename, engine='python')
@@ -36,10 +36,10 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 
     >>> a = create_dataframe("test.csv")
     >>> drop_null_values(a, subset= "Values")
-      Entities  Values
-    1   Banana     1.0
-    2    Apple     2.0
-    3   Orange     3.0
+      Entities  Values PATIENT ALLERGIES  HISTORY
+    1   Banana     1.0   Wayne       NaN     NONE
+    2    Apple     2.0    Colt        Na  unknown
+    3   Orange     3.0   Aaron    Pollen  5 years
 
     """
     subset_list = [subset]
@@ -99,6 +99,10 @@ def hypothesis_validation(dataframe: pd.DataFrame):
 
     :param dataframe: dataframe consisting of symptoms data
     :return: A list of count of people with and without symptoms
+
+    >>> a = create_dataframe("test.csv")
+    >>> hypothesis_validation(a)
+    [0, 4]
     """
     compare = np.where(dataframe['HISTORY'] == dataframe['ALLERGIES'], True, False)
     dataframe["Comparison"] = compare
@@ -165,13 +169,13 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
     :param dataframe: vaer_data
     :return: cleaned data set
 
-    >>> a = create_dataframe("test1.csv")
+    >>> a = create_dataframe("test.csv")
     >>> replace_garbage_values_with_nan(a)
-      PATIENT ALLERGIES  HISTORY
-    0    Andy    Gluten      NaN
-    1   Wayne       NaN      NaN
-    2    Colt       NaN      NaN
-    3   Aaron    Pollen  5 years
+      Entities  Values PATIENT ALLERGIES  HISTORY
+    0    Mango     NaN    Andy    Gluten      NaN
+    1   Banana     1.0   Wayne       NaN      NaN
+    2    Apple     2.0    Colt       NaN      NaN
+    3   Orange     3.0   Aaron    Pollen  5 years
 
     """
 
