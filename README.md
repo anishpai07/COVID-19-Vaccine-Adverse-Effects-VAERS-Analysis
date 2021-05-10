@@ -25,7 +25,7 @@ Here, we observe the reported adverse cases for each vaccine manufacturer across
 
 <img src="https://user-images.githubusercontent.com/71370024/116842764-4a547500-aba3-11eb-9837-baa5533200f6.png" width="450" height="520">
 
-Hence, upon further analysis, we find that Pfizer had the largest number of doses distributed across all states, followed by Moderna and J&J. <br>
+Hence, upon further analysis across the JHU statewise vaccinations dataset, we find that Pfizer had the largest number of doses distributed across all states, followed by Moderna and J&J. <br>
 
 <img src="https://user-images.githubusercontent.com/71370024/117696766-4d44fc00-b187-11eb-8935-c91fc79fedf9.png" width="450" height="520">
 
@@ -101,3 +101,7 @@ Below is our analysis of the most common symptoms reported by vaccine type:
 <b>Conclusion:</b> From the above graphs its clear that our hypothesis can be rejected. We can conclude that chills is the most common reported symptoms among all vaccines and not injection site pain.
 
 
+## References:
+1) VAERS Information: https://vaers.hhs.gov/index.html
+2) VAERS Patients, Vaccines, and Symptoms datasets: https://vaers.hhs.gov/data/datasets.html
+3) US Statewise Vaccinations dataset: Johns Hopkins University Coronavirus Resources Center (CRC) https://github.com/govex/COVID-19
