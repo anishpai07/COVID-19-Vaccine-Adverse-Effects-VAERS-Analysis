@@ -1,9 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import plotly.graph_objects as go
 import matplotlib.pyplot as plt
-
 
 
 def create_dataframe(filename: str):
@@ -33,6 +31,12 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 
 
 def reformating_vaccine_count_data(dataframe):
+    """
+    Classify each doses of vaccine in numbers to do normalization
+
+    :param dataframe: dataframe containing vaccine doses data
+    :return: dataframe: Dataframe consisting of vaccines and its number of doses given till date
+    """
     modern_count = 0
     pfizer_count = 0
     Janssen_count = 0
@@ -54,16 +58,18 @@ def reformating_vaccine_count_data(dataframe):
 
 
 def normalizing_columns(df):
-    df1 = df.copy()
+    """
 
-    #df1['vaccine_count'] = MinMaxScaler().fit_transform(np.array(df1['vaccine_count'].reshape(0, 1)))
-    df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (df1['vaccine_count'].max() - df1['vaccine_count'].min())
-    #print(df1)
-    # Not working will check later
+    :param df:
+    :return:
+    """
+    df1 = df.copy()
+    df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (
+                df1['vaccine_count'].max() - df1['vaccine_count'].min())
+
     fig = px.histogram(df1, x="Vaccine_Brand", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    #fig.show()
 
 
 def hypothesis_validation(dataframe: pd.DataFrame):
@@ -80,7 +86,7 @@ def hypothesis_validation(dataframe: pd.DataFrame):
     history_allergies_count = vaers_data_vax_v5.shape[0]
     no_history_allergies_count = vaers_data_vax_v4.shape[0]
 
-    return ([no_history_allergies_count, history_allergies_count])
+    return [no_history_allergies_count, history_allergies_count]
 
 
 def hypothesis_visualization(count):
@@ -94,7 +100,7 @@ def hypothesis_visualization(count):
     mycolors = ["c", "y"]
     plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
     plt.legend(title="Number of Reported persons")
-    #plt.show()
+    # plt.show()
 
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
@@ -144,20 +150,38 @@ def avg_onset(df):
     mean = int(df["Days"].mean())
     return mean
 
+
 def time_to_int(t):
+    """
+
+    :param t:
+    :return:
+    """
     return int(str(t).split(' ')[0])
 
+
 def statewise_analysis(states_data):
+    """
+
+    :param states_data:
+    :return:
+    """
     states_data.fillna(0)
     states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
     plt.show()
-    #print(states_v1.columns)
+    # print(states_v1.columns)
     return states_v1
-    #print(states_v1['Doses_admin'])
-    #states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
-    #print(states_v2.head(10))
+    # print(states_v1['Doses_admin'])
+    # states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
+    # print(states_v2.head(10))
+
 
 def state_abbreviations(df):
+    """
+
+    :param df:
+    :return:
+    """
     # ONLY THIS DICT (NOT FUNCTION) WAS REFERENCED FROM https://gist.github.com/rogerallen/1583593
     us_state_abbrev = {
         'Alabama': 'AL',
@@ -233,7 +257,7 @@ if __name__ == "__main__":
     state_data_v3 = statewise_analysis(state_data_v2)
     print(state_data_v1['Date'])
 
-    #print(state_data_v2.head(200))
+    # print(state_data_v2.head(200))
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -258,21 +282,11 @@ if __name__ == "__main__":
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
 
-    # JOIN STATE DATA WITH VAERS DATA VAX
-    # vaers_data_vax.groupby(['STATE', 'VAX_TYPE'])
-    # print(state_data_v1.shape)
-    # print(vaers_data_vax.shape)
-    #state_vaers_data = vaers_data_vax.merge(state_data_v1, left_on="STATE", right_on="Province_State")
-    #print(state_vaers_data.head(100))
-
-
-    # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
-
     # DROP ROWS WITH NAN VALUES IN THE AGE_YRS COLUMN
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
 
-    # CLEAN HISTORY AND ALLERGY COLUMNS
+    # CLEANING HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
 
     # NORMALIZING THE DATASET FOR CORRECT ACCURACY
@@ -284,18 +298,18 @@ if __name__ == "__main__":
     fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
                        title="Vaccines Administered vs Reported Adverse Effects", barmode="overlay")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    fig1 = px.bar(state_data_v2, x="Vaccine_Type", y="Doses_admin",  width=650,
-                       title="Total Number of Vaccines", barmode="overlay", color="Vaccine_Type")
-    #fig1.show()
+    fig1 = px.bar(state_data_v2, x="Vaccine_Type", y="Doses_admin", width=650,
+                  title="Total Number of Vaccines", barmode="overlay", color="Vaccine_Type")
+    # fig1.show()
     fig.add_trace(fig1.data[0])
     fig.add_trace(fig1.data[1])
     fig.add_trace(fig1.data[2])
-    #fig.update_traces(opacity=0.75)
+    # fig.update_traces(opacity=0.75)
     fig.show()
 
-    #fig1.add_trace(fig.data[0])
-    #fig1.add_trace(fig.data[1])
-    #fig1.show()
+    # fig1.add_trace(fig.data[0])
+    # fig1.add_trace(fig.data[1])
+    # fig1.show()
 
     # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
@@ -324,11 +338,11 @@ if __name__ == "__main__":
     janssen = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (JANSSEN))']
     janssen_v1 = janssen[janssen.Days.notnull()]
 
-    #moderna_onset = avg_onset(moderna_v1)
+    # moderna_onset = avg_onset(moderna_v1)
     # print(moderna_onset)
-    #pfizer_onset = avg_onset(pfizer_v1)
+    # pfizer_onset = avg_onset(pfizer_v1)
     # print(pfizer_onset)
-    #janssen_onset = avg_onset(janssen_v1)
+    # janssen_onset = avg_onset(janssen_v1)
     # print(janssen_onset)
     vacc_date = '2020-1-1'
     moderna_after_2020 = moderna_v1['VAX_DATE'] >= vacc_date
@@ -337,7 +351,6 @@ if __name__ == "__main__":
     filtered_dates_1 = filtered_dates["Days"].astype('timedelta64[D]')
 
     fig1 = px.histogram(filtered_dates_1, x="Days", width=650,
-                       title="Number of Reported Adverse Cases By Vaccine Manufacturers")
-    #fig1.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    #fig1.show()
-
+                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
+    # fig1.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
+    # fig1.show()
