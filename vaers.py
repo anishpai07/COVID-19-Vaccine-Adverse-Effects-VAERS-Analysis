@@ -5,6 +5,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 def create_dataframe(filename: str):
     """
     >>> create_dataframe("test.csv")
@@ -83,7 +84,7 @@ def normalizing_columns(df):
     """
     df1 = df.copy()
     df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (
-                df1['vaccine_count'].max() - df1['vaccine_count'].min())
+            df1['vaccine_count'].max() - df1['vaccine_count'].min())
 
     fig = px.histogram(df1, x="Vaccine_Brand", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
@@ -107,7 +108,7 @@ def hypothesis_validation(dataframe: pd.DataFrame):
     return [no_history_allergies_count, history_allergies_count]
 
 
-def hypothesis_visualization(count):
+def hypothesis_2_visualization(count):
     """
      This function develops pie chart to test HYPOTHESIS 3
 
@@ -119,6 +120,40 @@ def hypothesis_visualization(count):
     plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
     plt.legend(title="Number of Reported persons")
     plt.show()
+
+
+def hypothesis_4_visualization(dataframe1, vaers_symptoms):
+    """
+    Functions displays visualization of different types of symptoms administered for each vaccine type
+
+    :param count:
+    """
+    vaers_vax_v2 = dataframe1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
+    vaer_symptoms_vax = vaers_symptoms.merge(vaers_vax_v2, on="VAERS_ID", how="left")
+    vaer_symptoms_moderna = vaer_symptoms_vax[vaer_symptoms_vax['VAX_MANU'] == 'MODERNA']
+    vaer_symptoms_pfizer = vaer_symptoms_vax[vaer_symptoms_vax['VAX_MANU'] == 'PFIZER\BIONTECH']
+    vaer_symptoms_jannsen = vaer_symptoms_vax[vaer_symptoms_vax['VAX_MANU'] == 'JANSSEN']
+
+    # Graph for Moderna
+    figure1 = px.histogram(vaer_symptoms_moderna, x="SYMPTOM1", width=650,
+                           color_discrete_sequence=px.colors.diverging.Spectral[4::-2]
+                           , title="Count of Different symptoms reported for Moderna")
+    figure1.update_xaxes(categoryorder="total descending", title_text="Symptom Types")
+    figure1.show()
+
+    # Graph for Pfizer
+    figure2 = px.histogram(vaer_symptoms_pfizer, x="SYMPTOM1", width=650,
+                           color_discrete_sequence=px.colors.diverging.Spectral[-4::-3]
+                           , title="Count of different Symptoms for Pfizer")
+    figure2.update_xaxes(categoryorder="total descending", title_text="Symptom Types")
+    figure2.show()
+
+    # Graph for Jannsen
+    figure3 = px.histogram(vaer_symptoms_jannsen, x="SYMPTOM1", width=650,
+                           color_discrete_sequence=px.colors.diverging.Spectral[3::1],
+                           title="Count of Different Symptoms reported for Johnson & Johnson")
+    figure3.update_xaxes(categoryorder="total descending", title_text="Symptom Types")
+    figure3.show()
 
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
@@ -203,7 +238,8 @@ def statewise_analysis(states_data):
     ax = sns.histplot(df, x='states', hue='vaccine', weights='doses',
                       multiple='stack', shrink=0.6)
     ax.set_ylabel('doses')
-    ax.set_xticklabels(ax.get_xticklabels(), rotation=90)
+    # ax.set_xticklabels(ax.get_xticklabels(), rotation=60)
+    plt.xticks(rotation=90)
     legend = ax.get_legend()
     legend.set_bbox_to_anchor((1, 1))
     plt.show()
@@ -348,9 +384,12 @@ if __name__ == "__main__":
 
     # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
-    hypothesis_visualization(output)
+    hypothesis_2_visualization(output)
 
-    # HYPOTHESIS ONE VISUALISATION ## make a function for it
+    # HYPOTHESIS 4 VISUALIZATION
+    hypothesis_4_visualization(vaers_vax_v1, vaers_symptoms)
+
+    # HYPOTHESIS ONE VISUALISATION
     vaers_symptoms_vax = vaers_symptoms.merge(vaers_vax, on='VAERS_ID', how='left')
     whole_dataset = vaers_symptoms_vax.merge(vaers_data, on='VAERS_ID',
                                              how='left')  # Whole dataset merged into a dataframe
