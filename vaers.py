@@ -4,12 +4,18 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 def create_dataframe(filename: str):
     """
+    >>> create_dataframe("test.csv")
+      Entities  Values
+    0    Mango     NaN
+    1   Banana     1.0
+    2    Apple     2.0
+    3   Orange     3.0
+
     Takes the filename as a parameter and loads the data and returns its DataFrame.
 
-    :param filename: Name of the file for which the DataFrame will be created.
+    param filename: Name of the file for which the DataFrame will be created.
     :return: The DataFrame with all its rows and columns.
 
     """
@@ -20,11 +26,18 @@ def create_dataframe(filename: str):
 
 def drop_null_values(dataframe: pd.DataFrame, subset: str):
     """
+    >>> a = create_dataframe("test.csv")
+    >>> drop_null_values(a, subset= "Values")
+      Entities  Values
+    1   Banana     1.0
+    2    Apple     2.0
+    3   Orange     3.0
+
     Drops all data rows which has null values in the column passed in the function.
 
-    :param dataframe: Dataframe whose column needs to be cleaned/processed
-    :param subset: The column name from the dataset that needs cleaning
-    :return: Dataframe with cleaned/processed columns
+    :param dataframe:
+    :param subset:
+    :return: DATAFRAME OF EACH FILE DATA
     """
     subset_list = [subset]
     dataframe = dataframe.dropna(subset=subset_list)
@@ -68,7 +81,7 @@ def normalizing_columns(df):
     """
     df1 = df.copy()
     df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (
-            df1['vaccine_count'].max() - df1['vaccine_count'].min())
+                df1['vaccine_count'].max() - df1['vaccine_count'].min())
 
     fig = px.histogram(df1, x="Vaccine_Brand", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
@@ -77,8 +90,7 @@ def normalizing_columns(df):
 
 def hypothesis_validation(dataframe: pd.DataFrame):
     """
-    This functions is used to compare the data frame and count number of people having symptoms based
-    on prior health conditions.
+    This functions is used to compare the data frame and count number of people having symptoms based on prior health conditions.
 
     :param dataframe: dataframe consisting of symptoms data
     :return: A list of count of people with and without symptoms
