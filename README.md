@@ -38,20 +38,18 @@ Rate VAERS (Moderna) = 0.138% <br>
 Hence, we can reject H0 which stated that Moderna would have the lowest rate of reported adverse cases.
 
 ### Hypothesis 2
+<h1>HYPOTHESIS 2</h1>
 
 <b>Hypothesis :</b> People with underlying health conditions or allergies are more likely to develop symptoms after taking a vaccine.<br>
 
 The Aim of this hypothesis is to determine if any existing allergies and health conditions played a role in person developing symptoms post covid vaccination.<br>
 
-<b>Note:</b> For presentation purpose we have just cleaned the complete data set to normalize existing allergies and existing medical history column so that we could do some analyses.<br>
+<b>Note:</b> For presentation purpose we have just cleaned the complete data set to normalize existing allergies and existing medical history column so that we could do some analyses.<br><br>
 We have analyzed for now how many people with existing issues developed any symptom against people with no existng issues developing symptoms post getting vaccinated.
 
 <img src="Capture.PNG" width="450" height="400">
-<br>
 
 
-<b>Future Implementation:</b><br>
-For more more complex analysis we will then add correlation between existing health condition and the type of symptoms developed by the patient and then draw a comparison graph of which existing medical condition caused or was associated to how any symptoms.
 
 ### Hypothesis 3
 <b>Hypothesis: </b>Experts predict that usually the onset of the symptoms from the side effect of vaccines usually start to hit within 24 hours of the dose and do not stretch 7 days post the vaccination <br>
@@ -76,4 +74,32 @@ The graphs clearly show that in most of the cases the symptoms do start to show 
 Further Analysis <br>
 We have another dataset containing the number of COVID vaccines administered everyday in the month of January 2021 in all the states of the US. We plan to use this to compare the number of cases with side effects reported with the number of vaccines administered per state
  
+### Hypothesis 4
+
+<b> Hypothesis: </b> Injection Site Pain is the most common Symptom among all COVID 19 vaccines.
+
+In order to prove the hypothesis we had to first merge the symptoms reported by each person and then segregate the symptoms based the vaccine types.<br>
+
+Below is our analysis of the most common symptoms reported by vaccine type:
+
+<b> 1: Moderna Vaccine</b>
+
+<img src="Moderna.PNG" width="450" height="400">
+
+<p>In the above graph showing symptoms reported post taking Moderna Vaccine. It is clear that the most reported symptoms are chills and injection site erythema</p>
+
+<b> 2: Pfizer Vaccine</b>
+
+<img src="Pfizer.PNG.PNG" width="450" height="400">
+
+<p>In the above graph showing symptoms reported post taking Pfizer Vaccine. It is clear that the most reported symptoms are chills and headaches</p>
+
+<b> 3: Johnson and Johnson Vaccine</b>
+
+<img src="Janssen.PNG.PNG" width="450" height="400">
+
+<p>In the above graph showing symptoms reported post taking Janssen Vaccine. It is clear that the most reported symptom are chills and dizziness</p>
+
+<b>Conclusion:</b> From the above graphs its clear that our hypothesis can be rejected. We can conclude that chills is the most common reported symptoms among all vaccines and not injection site pain.
+
 
