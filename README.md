@@ -15,7 +15,7 @@ Established in 1990, the Vaccine Adverse Event Reporting System (VAERS) is a nat
 ### Project Goal
 Our goal is to analyze COVID-19 vaccination data by exploring the VAERS Vaccination, VAERS Patient Data and VAERS Symptoms datasets for the dates JAN-APRIL 2021. We will not only be exploring three different COVID Vaccines (MODERNA, PFIZER, JANSSEN) related data but will also look into Patient data such as age, any pre-existing medical conditions, allergies, etc. Finally, also want to get an idea of which vaccine has proven to be the most efficient in terms of preventing the recontraction of COVID and minimum resulting symptoms in the patient. 
 
-### Hypothesis 1
+## Hypothesis 1
 Conducting a test to identify which vaccine manufacturer had the lowest rate of reported adverse effects. <br>
 
 H0: Vaccines manufactured by Moderna have the lowest rate of reported adverse effects. <br>
@@ -37,9 +37,7 @@ Rate VAERS (Moderna) = 0.138% <br>
 
 Hence, we can reject H0 which stated that Moderna would have the lowest rate of reported adverse cases.
 
-### Hypothesis 2
-<h1>HYPOTHESIS 2</h1>
-
+## Hypothesis 2
 <b>Hypothesis :</b> People with underlying health conditions or allergies are more likely to develop symptoms after taking a vaccine.<br>
 
 The Aim of this hypothesis is to determine if any existing allergies and health conditions played a role in person developing symptoms post covid vaccination.<br>
@@ -51,7 +49,7 @@ We have analyzed for now how many people with existing issues developed any symp
 
 
 
-### Hypothesis 3
+## Hypothesis 3
 <b>Hypothesis: </b>Experts predict that usually the onset of the symptoms from the side effect of vaccines usually start to hit within 24 hours of the dose and do not stretch 7 days post the vaccination <br>
 <br>
 A lot of data is the dataset was missing. This dataset there were lot of typing mistakes as well, which were affecting the graphs and the calulations. Hence a lot of data cleaning had to be performed on this dataset <br>
@@ -74,7 +72,7 @@ The graphs clearly show that in most of the cases the symptoms do start to show 
 Further Analysis <br>
 We have another dataset containing the number of COVID vaccines administered everyday in the month of January 2021 in all the states of the US. We plan to use this to compare the number of cases with side effects reported with the number of vaccines administered per state
  
-### Hypothesis 4
+## Hypothesis 4
 
 <b> Hypothesis: </b> Injection Site Pain is the most common Symptom among all COVID 19 vaccines.
 
