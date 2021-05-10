@@ -150,9 +150,74 @@ def statewise_analysis(states_data):
     states_data.fillna(0)
     states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
     print(states_v1.columns)
+    return states_v1
     #print(states_v1['Doses_admin'])
     #states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
     #print(states_v2.head(10))
+
+def state_abbreviations(df):
+    us_state_abbrev = {
+        'Alabama': 'AL',
+        'Alaska': 'AK',
+        'American Samoa': 'AS',
+        'Arizona': 'AZ',
+        'Arkansas': 'AR',
+        'California': 'CA',
+        'Colorado': 'CO',
+        'Connecticut': 'CT',
+        'Delaware': 'DE',
+        'District of Columbia': 'DC',
+        'Florida': 'FL',
+        'Georgia': 'GA',
+        'Guam': 'GU',
+        'Hawaii': 'HI',
+        'Idaho': 'ID',
+        'Illinois': 'IL',
+        'Indiana': 'IN',
+        'Iowa': 'IA',
+        'Kansas': 'KS',
+        'Kentucky': 'KY',
+        'Louisiana': 'LA',
+        'Maine': 'ME',
+        'Maryland': 'MD',
+        'Massachusetts': 'MA',
+        'Michigan': 'MI',
+        'Minnesota': 'MN',
+        'Mississippi': 'MS',
+        'Missouri': 'MO',
+        'Montana': 'MT',
+        'Nebraska': 'NE',
+        'Nevada': 'NV',
+        'New Hampshire': 'NH',
+        'New Jersey': 'NJ',
+        'New Mexico': 'NM',
+        'New York': 'NY',
+        'North Carolina': 'NC',
+        'North Dakota': 'ND',
+        'Northern Mariana Islands': 'MP',
+        'Ohio': 'OH',
+        'Oklahoma': 'OK',
+        'Oregon': 'OR',
+        'Pennsylvania': 'PA',
+        'Puerto Rico': 'PR',
+        'Rhode Island': 'RI',
+        'South Carolina': 'SC',
+        'South Dakota': 'SD',
+        'Tennessee': 'TN',
+        'Texas': 'TX',
+        'Utah': 'UT',
+        'Vermont': 'VT',
+        'Virgin Islands': 'VI',
+        'Virginia': 'VA',
+        'Washington': 'WA',
+        'West Virginia': 'WV',
+        'Wisconsin': 'WI',
+        'Wyoming': 'WY'
+    }
+
+    df1 = df.replace({"Province_State": us_state_abbrev})
+    return df1
+
 
 if __name__ == "__main__":
     # LOAD ALL VAERS DATASETS.
@@ -161,6 +226,9 @@ if __name__ == "__main__":
     vaers_vax = create_dataframe("2021VAERSVAX.csv")
     state_data = create_dataframe("vaccine_data_us_timeline.csv")
     statewise_analysis(state_data)
+    state_data_v1 = state_abbreviations(state_data)
+    #print(state_data_v1.head(100))
+
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
