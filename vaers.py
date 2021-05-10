@@ -149,13 +149,14 @@ def time_to_int(t):
 def statewise_analysis(states_data):
     states_data.fillna(0)
     states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
-    print(states_v1.columns)
+    #print(states_v1.columns)
     return states_v1
     #print(states_v1['Doses_admin'])
     #states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
     #print(states_v2.head(10))
 
 def state_abbreviations(df):
+    # ONLY THIS DICT (NOT FUNCTION) WAS REFERENCED FROM https://gist.github.com/rogerallen/1583593
     us_state_abbrev = {
         'Alabama': 'AL',
         'Alaska': 'AK',
@@ -227,8 +228,8 @@ if __name__ == "__main__":
     state_data = create_dataframe("vaccine_data_us_timeline.csv")
     statewise_analysis(state_data)
     state_data_v1 = state_abbreviations(state_data)
-    #print(state_data_v1.head(100))
 
+    #print(state_data_v1.head(100))
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -249,6 +250,14 @@ if __name__ == "__main__":
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
+
+    # JOIN STATE DATA WITH VAERS DATA VAX
+    vaers_data_vax.groupby(['STATE', 'VAX_TYPE'])
+    print(state_data_v1.shape)
+    print(vaers_data_vax.shape)
+    state_vaers_data = vaers_data_vax.merge(state_data_v1, left_on="STATE", right_on="Province_State")
+    print(state_vaers_data.head(100))
+
 
     # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
 
