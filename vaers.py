@@ -14,11 +14,11 @@ def create_dataframe(filename: str):
     :return: The DataFrame with all its rows and columns.
 
     >>> create_dataframe("test.csv")
-      Entities  Values PATIENT ALLERGIES  HISTORY
-    0    Mango     NaN    Andy    Gluten       Na
-    1   Banana     1.0   Wayne       NaN     NONE
-    2    Apple     2.0    Colt        Na  unknown
-    3   Orange     3.0   Aaron    Pollen  5 years
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days
+    0    Mango     NaN    Andy    Gluten       Na     2
+    1   Banana     1.0   Wayne       NaN     NONE     3
+    2    Apple     2.0    Colt        Na  unknown     1
+    3   Orange     3.0   Aaron    Pollen  5 years     5
 
     """
     df = pd.read_csv(filename, engine='python')
@@ -36,10 +36,10 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 
     >>> a = create_dataframe("test.csv")
     >>> drop_null_values(a, subset= "Values")
-      Entities  Values PATIENT ALLERGIES  HISTORY
-    1   Banana     1.0   Wayne       NaN     NONE
-    2    Apple     2.0    Colt        Na  unknown
-    3   Orange     3.0   Aaron    Pollen  5 years
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days
+    1   Banana     1.0   Wayne       NaN     NONE     3
+    2    Apple     2.0    Colt        Na  unknown     1
+    3   Orange     3.0   Aaron    Pollen  5 years     5
 
     """
     subset_list = [subset]
@@ -171,11 +171,11 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
     >>> a = create_dataframe("test.csv")
     >>> replace_garbage_values_with_nan(a)
-      Entities  Values PATIENT ALLERGIES  HISTORY
-    0    Mango     NaN    Andy    Gluten      NaN
-    1   Banana     1.0   Wayne       NaN      NaN
-    2    Apple     2.0    Colt       NaN      NaN
-    3   Orange     3.0   Aaron    Pollen  5 years
+      Entities  Values PATIENT ALLERGIES  HISTORY  Days
+    0    Mango     NaN    Andy    Gluten      NaN     2
+    1   Banana     1.0   Wayne       NaN      NaN     3
+    2    Apple     2.0    Colt       NaN      NaN     1
+    3   Orange     3.0   Aaron    Pollen  5 years     5
 
     """
 
@@ -213,6 +213,10 @@ def avg_onset(df):
     """
     :param df: Dataframe
     :return: Mean of the days between vaccine and onset of symptoms
+    >>> a = create_dataframe("test.csv")
+    >>> avg_onset(a)
+    2
+
     """
     mean = int(df["Days"].mean())
     return mean
@@ -225,6 +229,10 @@ def time_to_int(t):
 
     :param t: Time in string format
     :return: Time in int data type
+
+    >>> a= "4 days"
+    >>> time_to_int(a)
+    4
     """
     return int(str(t).split(' ')[0])
 
