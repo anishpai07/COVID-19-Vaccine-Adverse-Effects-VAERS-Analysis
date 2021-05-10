@@ -21,7 +21,7 @@ def create_dataframe(filename: str):
 
 def drop_null_values(dataframe: pd.DataFrame, subset: str):
     """
-    Drops all data rows which has null values in the column passed  ib the function call
+    Drops all data rows which has null values in the column passed in the function.
 
     :param dataframe:
     :param subset:
@@ -58,12 +58,12 @@ def normalizing_columns(df):
 
     #df1['vaccine_count'] = MinMaxScaler().fit_transform(np.array(df1['vaccine_count'].reshape(0, 1)))
     df1['vaccine_count'] = (df1['vaccine_count'] - df1['vaccine_count'].min()) / (df1['vaccine_count'].max() - df1['vaccine_count'].min())
-    print(df1)
+    #print(df1)
     # Not working will check later
     fig = px.histogram(df1, x="Vaccine_Brand", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    fig.show()
+    #fig.show()
 
 
 def hypothesis_validation(dataframe: pd.DataFrame):
@@ -94,7 +94,7 @@ def hypothesis_visualization(count):
     mycolors = ["c", "y"]
     plt.pie(count, labels=mylabels, explode=myexplode, shadow=True, colors=mycolors)
     plt.legend(title="Number of Reported persons")
-    plt.show()
+    #plt.show()
 
 
 def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
@@ -147,12 +147,21 @@ def avg_onset(df):
 def time_to_int(t):
     return int(str(t).split(' ')[0])
 
+def statewise_analysis(states_data):
+    states_data.fillna(0)
+    states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
+    print(states_v1.columns)
+    #print(states_v1['Doses_admin'])
+    #states_v2 = states_v1[['Province_State', 'Date', 'Vaccine_Type', 'Doses_admin']]
+    #print(states_v2.head(10))
 
 if __name__ == "__main__":
     # LOAD ALL VAERS DATASETS.
     vaers_data = create_dataframe("2021VAERSData.csv")
     vaers_symptoms = create_dataframe("2021VAERSSYMPTOMS.csv")
     vaers_vax = create_dataframe("2021VAERSVAX.csv")
+    state_data = create_dataframe("vaccine_data_us_timeline.csv")
+    statewise_analysis(state_data)
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -180,7 +189,7 @@ if __name__ == "__main__":
     vaers_data_vax_v1 = drop_null_values(vaers_data_vax, subset='AGE_YRS')
     vaers_data_vax_v2 = vaers_data_vax_v1[['VAERS_ID', 'VAX_MANU']]
 
-    # CLEANING HISTORY AND ALLERGY COLUMNS
+    # CLEAN HISTORY AND ALLERGY COLUMNS
     vaers_data_vax_v3 = replace_garbage_values_with_nan(vaers_data_vax)
 
     # NORMALIZING THE DATASET FOR CORRECT ACCURACY
@@ -191,7 +200,7 @@ if __name__ == "__main__":
     fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    fig.show()
+    #fig.show()
 
     # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
