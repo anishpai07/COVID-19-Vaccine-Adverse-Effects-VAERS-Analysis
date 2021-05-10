@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from numba import jit
 import plotly.express as px
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -44,6 +45,7 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     return dataframe
 
 
+@jit(forceobj=True)
 def reformating_vaccine_count_data(dataframe):
     """
     Classify each doses of vaccine in numbers to do normalization
@@ -166,6 +168,7 @@ def avg_onset(df):
     return mean
 
 
+@jit(nopython=True)
 def time_to_int(t):
     """
      Converts time from String data type to Integer.
@@ -205,7 +208,6 @@ def statewise_analysis(states_data):
     legend.set_bbox_to_anchor((1, 1))
     plt.show()
     return states_v1
-
 
 
 def state_abbreviations(df):
