@@ -90,13 +90,13 @@ Below is our analysis of the most common symptoms reported by vaccine type:
 
 <b> 2: Pfizer Vaccine</b>
 
-<img src="Pfizer.PNG.PNG" width="450" height="400">
+<img src="Pfizer.PNG" width="450" height="400">
 
 <p>In the above graph showing symptoms reported post taking Pfizer Vaccine. It is clear that the most reported symptoms are chills and headaches.</p>
 
 <b> 3: Johnson and Johnson Vaccine</b>
 
-<img src="Janssen.PNG.PNG" width="450" height="400">
+<img src="Janssen.PNG" width="450" height="400">
 
 <p>In the above graph showing symptoms reported post taking Janssen Vaccine. It is clear that the most reported symptom are chills and dizziness.</p>
 
