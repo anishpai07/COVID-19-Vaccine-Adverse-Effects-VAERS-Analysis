@@ -203,7 +203,7 @@ def avg_onset(df):
     return mean
 
 
-@jit(nopython=True)
+@jit(forceobj=True)
 def time_to_int(t):
     """
      Converts time from String data type to Integer.
@@ -243,7 +243,7 @@ def statewise_analysis(states_data):
     legend = ax.get_legend()
     legend.set_bbox_to_anchor((1, 1))
     plt.show()
-    return states_v1
+    # return states_v1
 
 
 def state_abbreviations(df):
@@ -371,16 +371,11 @@ if __name__ == "__main__":
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
     fig1 = px.bar(state_data_v2, x="Vaccine_Type", y="Doses_admin", width=650,
                   title="Total Number of Vaccines", barmode="overlay", color="Vaccine_Type")
-    # fig1.show()
     fig.add_trace(fig1.data[0])
     fig.add_trace(fig1.data[1])
     fig.add_trace(fig1.data[2])
-    # fig.update_traces(opacity=0.75)
     fig.show()
 
-    # fig1.add_trace(fig.data[0])
-    # fig1.add_trace(fig.data[1])
-    # fig1.show()
 
     # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
