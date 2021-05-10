@@ -8,17 +8,17 @@ import seaborn as sns
 
 def create_dataframe(filename: str):
     """
+    Takes the filename as a parameter and loads the data and returns its DataFrame.
+
+    param filename: Name of the file for which the DataFrame will be created.
+    :return: The DataFrame with all its rows and columns.
+
     >>> create_dataframe("test.csv")
       Entities  Values
     0    Mango     NaN
     1   Banana     1.0
     2    Apple     2.0
     3   Orange     3.0
-
-    Takes the filename as a parameter and loads the data and returns its DataFrame.
-
-    param filename: Name of the file for which the DataFrame will be created.
-    :return: The DataFrame with all its rows and columns.
 
     """
     df = pd.read_csv(filename, engine='python')
@@ -28,6 +28,12 @@ def create_dataframe(filename: str):
 
 def drop_null_values(dataframe: pd.DataFrame, subset: str):
     """
+    Drops all data rows which has null values in the column passed in the function.
+
+    :param dataframe:
+    :param subset:
+    :return: DATAFRAME OF EACH FILE DATA
+
     >>> a = create_dataframe("test.csv")
     >>> drop_null_values(a, subset= "Values")
       Entities  Values
@@ -35,11 +41,6 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
     2    Apple     2.0
     3   Orange     3.0
 
-    Drops all data rows which has null values in the column passed in the function.
-
-    :param dataframe:
-    :param subset:
-    :return: DATAFRAME OF EACH FILE DATA
     """
     subset_list = [subset]
     dataframe = dataframe.dropna(subset=subset_list)
@@ -50,6 +51,7 @@ def drop_null_values(dataframe: pd.DataFrame, subset: str):
 def reformating_vaccine_count_data(dataframe):
     """
     Classify each doses of vaccine in numbers to do normalization
+
 
     :param dataframe: dataframe containing vaccine doses data
     :return: dataframe: Dataframe consisting of vaccines and its number of doses given till date
@@ -162,6 +164,15 @@ def replace_garbage_values_with_nan(dataframe: pd.DataFrame):
 
     :param dataframe: vaer_data
     :return: cleaned data set
+
+    >>> a = create_dataframe("test1.csv")
+    >>> replace_garbage_values_with_nan(a)
+      PATIENT ALLERGIES  HISTORY
+    0    Andy    Gluten      NaN
+    1   Wayne       NaN      NaN
+    2    Colt       NaN      NaN
+    3   Aaron    Pollen  5 years
+
     """
 
     dataframe['ALLERGIES'] = dataframe['ALLERGIES'].replace(
