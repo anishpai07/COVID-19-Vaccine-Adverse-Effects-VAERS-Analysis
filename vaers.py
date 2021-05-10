@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 
 
@@ -149,6 +150,7 @@ def time_to_int(t):
 def statewise_analysis(states_data):
     states_data.fillna(0)
     states_v1 = states_data.groupby(['Province_State', 'Vaccine_Type']).agg('sum')
+    plt.show()
     #print(states_v1.columns)
     return states_v1
     #print(states_v1['Doses_admin'])
@@ -226,10 +228,12 @@ if __name__ == "__main__":
     vaers_symptoms = create_dataframe("2021VAERSSYMPTOMS.csv")
     vaers_vax = create_dataframe("2021VAERSVAX.csv")
     state_data = create_dataframe("vaccine_data_us_timeline.csv")
-    statewise_analysis(state_data)
-    state_data_v1 = state_abbreviations(state_data)
+    state_data_v1 = state_data[state_data['Date'] > "2021-01-01"]
+    state_data_v2 = state_abbreviations(state_data)
+    state_data_v3 = statewise_analysis(state_data_v2)
+    print(state_data_v1['Date'])
 
-    #print(state_data_v1.head(100))
+    #print(state_data_v2.head(200))
 
     # DATA CLEANING AND PREPROCESSING: VACCINATIONS PER STATE
 
@@ -246,17 +250,20 @@ if __name__ == "__main__":
 
     # GET ALL VACCINATION DATA FOR COVID-19 VACCINES ONLY.
     vaers_vax_v1 = vaers_vax[vaers_vax['VAX_TYPE'] == 'COVID19']
-    vaers_vax_v2 = vaers_vax_v1[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
+    vax_dict = {'MODERNA': 'Moderna', 'PFIZER\BIONTECH': 'Pfizer'}
+    vaers_vax_v2 = vaers_vax_v1.replace({"VAX_MANU": vax_dict})
+    vaers_vax_v3 = vaers_vax_v2[['VAERS_ID', 'VAX_TYPE', 'VAX_MANU']]
+    print(vaers_vax_v3)
 
     # JOIN VAERS DATA WITH COVID-19 VAERS VAX
     vaers_data_vax = vaers_data.merge(vaers_vax_v2, on="VAERS_ID", how="left")
 
     # JOIN STATE DATA WITH VAERS DATA VAX
-    vaers_data_vax.groupby(['STATE', 'VAX_TYPE'])
-    print(state_data_v1.shape)
-    print(vaers_data_vax.shape)
-    state_vaers_data = vaers_data_vax.merge(state_data_v1, left_on="STATE", right_on="Province_State")
-    print(state_vaers_data.head(100))
+    # vaers_data_vax.groupby(['STATE', 'VAX_TYPE'])
+    # print(state_data_v1.shape)
+    # print(vaers_data_vax.shape)
+    #state_vaers_data = vaers_data_vax.merge(state_data_v1, left_on="STATE", right_on="Province_State")
+    #print(state_vaers_data.head(100))
 
 
     # DATA CLEANING AND PREPROCESSING: VAERS DATA VAX
@@ -273,10 +280,22 @@ if __name__ == "__main__":
 
     # VISUALIZE THE NUMBER OF REPORTED ADVERSE CASES BY VACCINE MANUFACTURERS.
     # Can remove this below code moved it to a function
+
     fig = px.histogram(vaers_data_vax_v2, x="VAX_MANU", width=650,
-                       title="Number of Reported Adverse Cases By Vaccine Manufacturers")
+                       title="Vaccines Administered vs Reported Adverse Effects", barmode="overlay")
     fig.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
-    #fig.show()
+    fig1 = px.bar(state_data_v2, x="Vaccine_Type", y="Doses_admin",  width=650,
+                       title="Total Number of Vaccines", barmode="overlay", color="Vaccine_Type")
+    #fig1.show()
+    fig.add_trace(fig1.data[0])
+    fig.add_trace(fig1.data[1])
+    fig.add_trace(fig1.data[2])
+    #fig.update_traces(opacity=0.75)
+    fig.show()
+
+    #fig1.add_trace(fig.data[0])
+    #fig1.add_trace(fig.data[1])
+    #fig1.show()
 
     # HYPOTHESIS 2 VISUALIZATION
     output = hypothesis_validation(vaers_data_vax_v3)
@@ -305,11 +324,11 @@ if __name__ == "__main__":
     janssen = relevant_data.loc[relevant_data['VAX_NAME'] == 'COVID19 (COVID19 (JANSSEN))']
     janssen_v1 = janssen[janssen.Days.notnull()]
 
-    moderna_onset = avg_onset(moderna_v1)
+    #moderna_onset = avg_onset(moderna_v1)
     # print(moderna_onset)
-    pfizer_onset = avg_onset(pfizer_v1)
+    #pfizer_onset = avg_onset(pfizer_v1)
     # print(pfizer_onset)
-    janssen_onset = avg_onset(janssen_v1)
+    #janssen_onset = avg_onset(janssen_v1)
     # print(janssen_onset)
     vacc_date = '2020-1-1'
     moderna_after_2020 = moderna_v1['VAX_DATE'] >= vacc_date
@@ -321,3 +340,4 @@ if __name__ == "__main__":
                        title="Number of Reported Adverse Cases By Vaccine Manufacturers")
     #fig1.update_xaxes(categoryorder="total descending", title_text="Vaccine Manufacturer")
     #fig1.show()
+
